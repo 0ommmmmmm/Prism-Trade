@@ -119,6 +119,9 @@ class YFinanceSource(DataSource):
         "RELIANCE.NS", "TCS.NS", "INFY.NS", "HDFCBANK.NS",
         "ICICIBANK.NS", "SBIN.NS", "TATAMOTORS.NS", "ADANIENT.NS",
         "^NSEI", "^BSESN",
+        # Forex / Commodities / Futures
+        "GC=F",    # XAUUSD — Gold
+        "NQ=F",    # NAS100 — Nasdaq 100 Futures
     ]
     timeframes = {
         "10s": "10s", "15s": "15s",

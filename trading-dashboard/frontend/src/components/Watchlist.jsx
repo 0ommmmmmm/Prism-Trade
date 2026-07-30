@@ -1,14 +1,17 @@
 import React, { useMemo, useState } from "react";
 import { store, KEYS } from "../lib/storage";
+import { displayName } from "../lib/aliases";
 
-const CATEGORIES = ["All", "Favorites", "Recent", "Crypto", "Stocks", "Indices"];
+const CATEGORIES = ["All", "Favorites", "Recent", "Crypto", "Futures", "Stocks", "Indices"];
 
 // Map a symbol to a category using source metadata + heuristics.
 function categorize(sym, source) {
   if (source === "hyperliquid") return "Crypto";
   if (sym?.startsWith("^")) return "Indices";
+  if (sym?.endsWith("=F")) return "Futures";
   return "Stocks";
 }
+
 
 export default function Watchlist({
   open, setOpen, sources, onActivate, onOpenInNew, onReplaceActive, activePaneCfg,
@@ -41,7 +44,7 @@ export default function Watchlist({
     if (cat === "Favorites") l = l.filter((i) => favs.includes(i.id));
     else if (cat === "Recent") l = recents.map((id) => items.find((i) => i.id === id)).filter(Boolean);
     else if (cat !== "All") l = l.filter((i) => categorize(i.symbol, i.source) === cat);
-    if (q) l = l.filter((i) => i.symbol.toLowerCase().includes(q.toLowerCase()) || i.source.includes(q.toLowerCase()));
+    if (q) l = l.filter((i) => i.symbol.toLowerCase().includes(q.toLowerCase()) || displayName(i.symbol).toLowerCase().includes(q.toLowerCase()) || i.source.includes(q.toLowerCase()));
     return l;
   }, [items, cat, q, favs, recents]);
 
@@ -115,7 +118,7 @@ export default function Watchlist({
             <span className="wl-star" onClick={(e) => { e.stopPropagation(); toggleFav(it.id); }}>
               {favs.includes(it.id) ? "★" : "☆"}
             </span>
-            <span className="wl-sym">{it.symbol}</span>
+            <span className="wl-sym">{displayName(it.symbol)}</span>
             <span className="wl-src">{it.source}</span>
           </div>
         ))}

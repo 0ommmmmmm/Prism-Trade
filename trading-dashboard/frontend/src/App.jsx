@@ -7,6 +7,7 @@ import CommandPalette from "./components/CommandPalette";
 import { fetchSources } from "./lib/api";
 import { store, KEYS, loadLayouts, saveLayout } from "./lib/storage";
 import { useShortcuts } from "./lib/shortcuts";
+import { displayName } from "./lib/aliases";
 
 const COUNT_OPTIONS = [1, 2, 4, 6, 8];
 
@@ -106,7 +107,7 @@ export default function App() {
     if (sources) {
       for (const s of sources.sources) {
         for (const sym of sources.meta[s].symbols || []) {
-          items.push({ id: `sym:${s}:${sym}`, label: `${sym}`, hint: s, action: () => onWatchActivate({ source: s, symbol: sym }) });
+          items.push({ id: `sym:${s}:${sym}`, label: `${displayName(sym)}`, hint: s, action: () => onWatchActivate({ source: s, symbol: sym }) });
         }
       }
     }

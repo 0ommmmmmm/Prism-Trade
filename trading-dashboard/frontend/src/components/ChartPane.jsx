@@ -4,6 +4,7 @@ import { fetchCandles, fetchQuote, openStream } from "../lib/api";
 import { buildSeriesSpec, CHART_TYPES } from "../lib/chartTypes";
 import { INDICATORS } from "../lib/indicators";
 import { createDrawingLayer } from "../lib/drawings";
+import { displayName } from "../lib/aliases";
 import IndicatorMenu from "./IndicatorMenu";
 
 const POLL_MS = 3000;
@@ -466,7 +467,7 @@ export default function ChartPane({
         <span style={{ marginLeft: "auto", color: "var(--muted)", fontSize: 11 }}>#{paneId + 1}</span>
       </div>
       <div className={`ticker ${flashCls}`}>
-        <span className="sym">{symbol}</span>
+        <span className="sym">{displayName(symbol)}</span>
         <span>
           <span className="price">{tick.price != null ? formatPrice(tick.price) : "—"}</span>
           {tick.prev != null && tick.price != null && (
